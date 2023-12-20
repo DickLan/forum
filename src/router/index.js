@@ -1,26 +1,53 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import NotFound from '../views/NotFound.vue'
+import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
+// import { component } from 'vue/types/umd'
+import Restaurants from '../views/Restaurants.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+
+
   {
     path: '/',
-    name: 'home',
-    // 每一次進入routes 都會載入 component HomeView
-    component: HomeView
+    redirect: '/restaurants'
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    // 只有進入 /about 時，才會載入 AboutView
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }, {
+    path: '/restaurants',
+    name: 'restaurants',
+    component: Restaurants
+  },
+  {
+    path: '/restaurants/feeds',
+    name: 'restaurants-feeds',
+    component: () => import('../views/RestaurantsFeeds.vue')
+  },
+  {
+    path: '/restaurants/top',
+    name: 'restaurants-top',
+    component: () => import('../views/RestaurantsTop.vue')
+  },
+  {
+    path: '/users/top',
+    name: 'users-top',
+    component: () => import('../views/UsersTop.vue')
+  },
+
+
+  {
+    path: '/signup',
+    name: 'sign-up',
+    component: SignUp
+  },
+  {
+    path: '/signin',
+    name: 'sign-in',
+    component: SignIn
+  },
+  {
     path: '*', // * 表示任意路徑
     name: 'not-found',
     component: NotFound
@@ -29,6 +56,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  // vue 提供的方法 當路徑exact same時，會自動加上linkActiveClass定義的 class
+  linkExactActiveClass: 'active',
   routes
 })
 
