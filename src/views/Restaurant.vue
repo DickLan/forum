@@ -1,7 +1,9 @@
 <template>
   <div class="container py-5">
     <h1>餐廳描述頁</h1>
+
     <!-- 餐廳資訊頁 RestaurantDetail -->
+    <RestaurantDetail :initialRestaurant="restaurant" />
     <hr />
     <!-- 餐廳評論 RestaurantComments -->
     <!-- 新增評論 CreateComment -->
@@ -95,6 +97,7 @@ const dummyData = {
   isFavorited: false,
   isLiked: false,
 };
+import RestaurantDetail from "./../components/RestaurantDetail.vue";
 
 export default {
   data() {
@@ -137,6 +140,9 @@ export default {
       };
       this.restaurantComments = dummyData.restaurant.Comments;
     },
+  },
+  components: {
+    RestaurantDetail,
   },
 };
 </script>
