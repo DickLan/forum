@@ -18,7 +18,7 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import moment from "moment";
+import { fromNowFilter } from "./../utils/mixins";
 
 export default {
   props: {
@@ -27,10 +27,6 @@ export default {
       required: true,
     },
   },
-  filters: {
-    fromNow(datetime) {
-      return moment(datetime).fromNow();
-    },
-  },
+  mixins: [fromNowFilter],
 };
 </script>

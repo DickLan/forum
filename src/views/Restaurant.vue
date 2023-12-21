@@ -6,6 +6,7 @@
     <RestaurantDetail :initialRestaurant="restaurant" />
     <hr />
     <!-- 餐廳評論 RestaurantComments -->
+    <RestaurantComments :restaurantComments="restaurantComments" />
     <!-- 新增評論 CreateComment -->
   </div>
 </template>
@@ -98,6 +99,7 @@ const dummyData = {
   isLiked: false,
 };
 import RestaurantDetail from "./../components/RestaurantDetail.vue";
+import RestaurantComments from "./../components/RestaurantComments.vue";
 
 export default {
   data() {
@@ -143,6 +145,7 @@ export default {
   },
   components: {
     RestaurantDetail,
+    RestaurantComments,
   },
 };
 </script>
