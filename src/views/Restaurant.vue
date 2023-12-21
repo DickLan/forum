@@ -6,8 +6,15 @@
     <RestaurantDetail :initialRestaurant="restaurant" />
     <hr />
     <!-- 餐廳評論 RestaurantComments -->
-    <RestaurantComments :restaurantComments="restaurantComments" />
+    <RestaurantComments
+      :restaurantComments="restaurantComments"
+      @after-click-delete-comment="deleteComment"
+    />
     <!-- 新增評論 CreateComment -->
+    <CreateComment
+      v-bind:restaurantId="restaurant.id"
+      @after-create-comment="createComment"
+    />
   </div>
 </template>
 
@@ -100,6 +107,18 @@ const dummyData = {
 };
 import RestaurantDetail from "./../components/RestaurantDetail.vue";
 import RestaurantComments from "./../components/RestaurantComments.vue";
+import CreateComment from "./../components/CreateComment.vue";
+
+const dummyUser = {
+  currentUser: {
+    id: 1,
+    name: "管理者",
+    email: "root@example",
+    image: "https://i.pravatar.cc",
+    isAdmin: true,
+  },
+  isAuthenticated: true,
+};
 
 export default {
   data() {
@@ -117,6 +136,7 @@ export default {
         isLiked: false,
       },
       restaurantComments: [],
+      currentUser: dummyUser.currentUser,
     };
   },
   created() {
@@ -142,10 +162,31 @@ export default {
       };
       this.restaurantComments = dummyData.restaurant.Comments;
     },
+    deleteComment(commentId) {
+      this.restaurantComments = this.restaurantComments.filter(
+        (comment) => comment.id !== commentId
+      );
+    },
+    createComment(payload) {
+      console.log("payload", payload);
+      console.log("createComment in Restaurant.vue", payload);
+      const { commentId, restaurantId, text } = payload;
+      this.restaurantComments.push({
+        id: commentId,
+        RestaurantId: restaurantId,
+        User: {
+          id: this.currentUser.id,
+          name: this.currentUser.name,
+        },
+        text,
+        createdAt: new Date(),
+      });
+    },
   },
   components: {
     RestaurantDetail,
     RestaurantComments,
+    CreateComment,
   },
 };
 </script>

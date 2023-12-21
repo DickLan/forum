@@ -8,6 +8,7 @@
           v-if="currentUser.isAdmin"
           type="button"
           class="btn btn-danger float-right"
+          @click="clickDeleteComment(comment.id)"
         >
           Delete
         </button>
@@ -49,6 +50,11 @@ export default {
     restaurantComments: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    clickDeleteComment(commentId) {
+      this.$emit("after-click-delete-comment", commentId);
     },
   },
 };
