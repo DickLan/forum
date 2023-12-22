@@ -10,9 +10,11 @@
       aria-controls="navbarSupportedContent"
       aria-expanded="false"
       aria-label="Toggle navigation"
+    ></button>
+
+    <router-link class="nav-link" style="color: white" to="/users/1"
+      >User</router-link
     >
-      <span class="navbar-toggler-icon" />
-    </button>
 
     <div id="navbarSupportedContent" class="navbar-collapse collapse">
       <div class="ml-auto d-flex align-items-center">

@@ -45,6 +45,12 @@ const routes = [
     name: 'users-top',
     component: () => import('../views/UsersTop.vue')
   },
+  {
+    path: '/users/:id',
+    name: 'user',
+    component: () => import('../views/User.vue')
+  }
+  ,
 
 
   {
@@ -61,6 +67,26 @@ const routes = [
     path: '*', // * 表示任意路徑
     name: 'not-found',
     component: NotFound
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    redirect: '/admin/restaurants',
+  },
+  {
+    path: '/admin/restaurants/new',
+    name: 'admin-restaurant-new',
+    component: () => import('../views/AdminRestaurantNew.vue')
+  },
+  {
+    path: '/admin/restaurants/:id',
+    name: 'admin-restaurant',
+    component: () => import('../views/AdminRestaurant.vue')
+  },
+  {
+    path: '/admin/restaurants',
+    name: 'admin-restaurants',
+    component: () => import('../views/AdminRestaurants.vue')
   }
 
 ]
