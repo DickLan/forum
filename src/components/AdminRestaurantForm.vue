@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.stop.prevent="handleSubmit">
     <div class="form-group">
       <label for="name">Name</label>
       <input
@@ -180,6 +180,19 @@ export default {
         const imageURL = window.URL.createObjectURL(files[0]);
         this.restaurant.image = imageURL;
       }
+    },
+    handleSubmit(e) {
+      // console.log(e);
+      const form = e.target;
+      // console.log("form", form);
+      // 透過 new FormData 來產生物件實例，並存放到 formData 變數中
+      const formData = new FormData(form);
+      // console.log("formData", formData);
+      // 要取得表單的內容 則可以透過 formData.entries() 來逐項取得表單的欄位名稱與值
+      // for (let [name, value] of formData.entries()) {
+      //   console.log(name, value);
+      // }
+      this.$emit("after-submit", formData);
     },
   },
 };
