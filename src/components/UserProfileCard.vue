@@ -5,7 +5,9 @@
       <div class="card-body">
         <h5 class="card-title">{{ user.name }}</h5>
         <img :src="user.image" alt="" />
-        <a href="#" class="btn btn-primary">編輯個人資料</a>
+        <router-link :to="`/users/${user.id}/edit`" class="btn btn-primary"
+          >編輯個人資料</router-link
+        >
       </div>
     </div>
   </div>
