@@ -161,7 +161,10 @@ export default {
   },
   created() {
     this.fetchCategories();
-    // this.fetchRestaurant();
+    this.restaurant = {
+      ...this.restaurant,
+      ...this.initialRestaurant,
+    };
   },
   methods: {
     fetchCategories() {
@@ -193,6 +196,23 @@ export default {
       //   console.log(name, value);
       // }
       this.$emit("after-submit", formData);
+    },
+  },
+  props: {
+    initialRestaurant: {
+      type: Object,
+      // 當資料不是必填時 通常會設定 default
+      // 因為要回傳的是物件 所以要在 {}外面包一層小括號
+      // 因為若只寫 ()=>{} 會是一般函式，沒辦法傳物件
+      default: () => ({
+        name: "",
+        categoryId: "",
+        tel: "",
+        address: "",
+        description: "",
+        image: "",
+        openingHours: "",
+      }),
     },
   },
 };
