@@ -80,6 +80,11 @@ const routes = [
     redirect: '/admin/restaurants',
   },
   {
+    path: '/admin/categories',
+    name: 'admin-categories',
+    component: () => import('../views/AdminCategories.vue')
+  },
+  {
     path: '/admin/restaurants/new',
     name: 'admin-restaurant-new',
     component: () => import('../views/AdminRestaurantNew.vue')
