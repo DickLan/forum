@@ -38,7 +38,7 @@ const dummyUsers = {
     {
       id: 1,
       name: "admin",
-      email: "root@example",
+      email: "root@example.com",
       password: "12345678",
       isAdmin: true,
     },

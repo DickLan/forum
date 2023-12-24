@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import authorizationAPI from "./../apis/authorization";
+
 // 匯出一個 vue component 物件，讓其他地方可以使用 例如上方的 html v-model
 export default {
   data() {
@@ -60,12 +62,22 @@ export default {
     };
   },
   methods: {
-    handlerSubmit() {
-      const data = JSON.stringify({
-        email: this.email,
-        password: this.password,
-      });
-      console.log("data", data);
+    handlerSubmit(e) {
+      authorizationAPI
+        .signIn({
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          console.log("response=", response);
+          const { data } = response;
+          // localStorage 是瀏覽器給每個網頁的儲存空間
+          // 可以把想儲存的資料放在瀏覽器內
+          // 在使用者清除 localStorage 之前，就算關閉網頁，這localStorage仍然存在
+          localStorage.setItem("token", data.token);
+          // vue router 提供的轉址功能
+          this.$router.push("/restaurants");
+        });
     },
   },
 };
