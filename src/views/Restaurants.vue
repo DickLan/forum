@@ -1,6 +1,7 @@
 <template>
   <div class="container py-5">
     <Navtabs />
+    <button @click.stop.prevent="swalTry">Fire</button>
     <!-- 餐廳類別標籤 RestaurantsNavPills -->
 
     <RestaurantsNavPills v-bind:categories="categories" />
@@ -31,6 +32,7 @@ import Navtabs from "./../components/NavTabs.vue";
 import RestaurantCard from "./../components/RestaurantCard.vue";
 import RestaurantsNavPills from "./../components/RestaurantsNavPills.vue";
 import RestaurantPagination from "./../components/RestaurantsPagination.vue";
+import { Toast } from "../utils/helpers";
 
 const dummyData = {
   restaurants: [
@@ -350,6 +352,13 @@ export default {
       this.prev = prev;
       this.next = next;
       this.categoryId = categoryId;
+    },
+    swalTry() {
+      console.log("6666");
+      Toast.fire({
+        icon: "success",
+        title: "Sign in SSSSS",
+      });
     },
   },
 };
