@@ -34,7 +34,11 @@
         />
       </div>
 
-      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">
+      <button
+        class="btn btn-lg btn-primary btn-block mb-3"
+        :disabled="isProcessing"
+        type="submit"
+      >
         Submit
       </button>
 
@@ -60,6 +64,7 @@ export default {
     return {
       email: "",
       password: "",
+      isProcessing: false,
     };
   },
   methods: {
@@ -71,6 +76,7 @@ export default {
           title: "請填入 email 和 password",
         });
       }
+      this.isProcessing = true;
       authorizationAPI
         .signIn({
           email: this.email,
@@ -90,6 +96,7 @@ export default {
           this.$router.push("/restaurants");
         })
         .catch((err) => {
+          this.isProcessing = false;
           this.password = "";
           Toast.fire({
             icon: "warning",
