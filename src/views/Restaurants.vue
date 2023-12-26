@@ -17,6 +17,7 @@
 
     <!-- 分頁標籤 RestaurantPagination -->
     <RestaurantPagination
+      v-if="totalPage.length > 1"
       :categoryId="categoryId"
       :currentPage="page"
       :totalPage="totalPage"
@@ -33,7 +34,7 @@ import RestaurantCard from "./../components/RestaurantCard.vue";
 import RestaurantsNavPills from "./../components/RestaurantsNavPills.vue";
 import RestaurantPagination from "./../components/RestaurantsPagination.vue";
 import { Toast } from "../utils/helpers";
-
+import restaurantsAPI from "./../apis/restaurants";
 const dummyData = {
   restaurants: [
     {
@@ -331,28 +332,45 @@ export default {
     };
   },
   created() {
-    this.fetchRestaurants();
+    this.fetchRestaurants({
+      queryPage: 1,
+      queryCategoryId: "",
+    });
   },
   methods: {
-    fetchRestaurants() {
-      const {
-        restaurants,
-        categories,
-        page,
-        totalPage,
-        prev,
-        next,
-        categoryId,
-      } = dummyData;
-      this.restaurants = restaurants;
-      this.categories = categories;
-      this.page = page;
-      this.currentPage = page;
-      this.totalPage = totalPage;
-      this.prev = prev;
-      this.next = next;
-      this.categoryId = categoryId;
+    async fetchRestaurants({ queryPage, queryCategoryId }) {
+      try {
+        const response = await restaurantsAPI.getRestaurants({
+          page: queryPage,
+          categoryId: queryCategoryId,
+        });
+        console.log("response", response);
+        const {
+          restaurants,
+          categories,
+          page,
+          totalPage,
+          prev,
+          next,
+          categoryId,
+        } = response.data;
+        this.restaurants = restaurants;
+        this.categories = categories;
+        this.page = page;
+        this.currentPage = page;
+        this.totalPage = totalPage;
+        this.prev = prev;
+        this.next = next;
+        this.categoryId = categoryId;
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取得餐廳資料，請稍後再試",
+        });
+      }
     },
+
     swalTry() {
       console.log("6666");
       Toast.fire({
