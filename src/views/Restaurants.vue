@@ -319,10 +319,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
   },
   beforeRouteUpdate(to, from, next) {
-    console.log("to", to);
-    console.log("from", from);
     const { page = "", categoryId = "" } = to.query;
-    console.log("to.query=", to.query);
     this.fetchRestaurants({ queryPage: page, queryCategoryId: categoryId });
     next();
   },
@@ -340,7 +337,6 @@ export default {
     };
   },
   created() {
-    console.log("this.$route", this.$route);
     const { page = "", categoryId = "" } = this.$route.query;
     this.fetchRestaurants({
       queryPage: page,
