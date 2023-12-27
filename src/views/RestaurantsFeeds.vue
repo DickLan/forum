@@ -31,6 +31,8 @@
 import Navtabs from "./../components/NavTabs.vue";
 import NewestRestaurants from "./../components/NewestRestaurants.vue";
 import NewestComments from "./../components/NewestComments.vue";
+import restaurantsAPI from "./../apis/restaurants";
+import { Toast } from "../utils/helpers";
 const dummyData = {
   restaurants: [
     {
@@ -598,9 +600,20 @@ export default {
     this.fetchFeeds();
   },
   methods: {
-    fetchFeeds() {
-      this.restaurants = dummyData.restaurants;
-      this.comments = dummyData.comments;
+    async fetchFeeds() {
+      try {
+        const response = await restaurantsAPI.getRestaurantsFeeds();
+        console.log("response", response);
+        const { restaurants, comments } = response.data;
+
+        this.restaurants = restaurants;
+        this.comments = comments;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得Feeds資料，請稍後再試",
+        });
+      }
     },
   },
 };
