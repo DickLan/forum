@@ -29,7 +29,7 @@
           type="button"
           class="btn btn-danger btn-border favorite mr-2"
           v-if="restaurant.isFavorited"
-          @click.prevent.stop="changeFavoriteState()"
+          @click.prevent.stop="deleteFavorite(restaurant.id)"
         >
           移除最愛
         </button>
@@ -37,7 +37,7 @@
           type="button"
           class="btn btn-primary btn-border favorite mr-2"
           v-else
-          @click.prevent.stop="changeFavoriteState()"
+          @click.prevent.stop="addFavorite(restaurant.id)"
         >
           加到最愛
         </button>
@@ -64,6 +64,7 @@
 
 
 <script>
+import usersAPI from "./../apis/users";
 export default {
   props: {
     initialRestaurant: {
@@ -87,6 +88,42 @@ export default {
       this.restaurant = {
         ...this.restaurant,
         isLiked: !this.restaurant.isLiked,
+      };
+    },
+    async addFavorite(restaurantId) {
+      console.log(3);
+      console.log("restaurantId", restaurantId);
+      // 傳入的參數是物件 要記得!!!
+      const response = await usersAPI.addFavorite({ restaurantId });
+      const data = response.data;
+      console.log(1);
+      console.log("response", response);
+      console.log("data", data);
+      console.log(2);
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+      this.restaurant = {
+        ...this.restaurant,
+        isFavorited: true,
+      };
+    },
+    async deleteFavorite(restaurantId) {
+      console.log(3);
+      console.log("restaurantId", restaurantId);
+      // 傳入的參數是物件 要記得!!!
+      const response = await usersAPI.deleteFavorite({ restaurantId });
+      const data = response.data;
+      console.log(1);
+      console.log("response", response);
+      console.log("data", data);
+      console.log(2);
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+      this.restaurant = {
+        ...this.restaurant,
+        isFavorited: false,
       };
     },
   },
