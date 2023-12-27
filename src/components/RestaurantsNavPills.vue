@@ -8,7 +8,7 @@
       <!--  to="/restaurants" 等於  -->
       <!--   to="{name:'restaurants'}" -->
       <!-- 這個對應是在 index 裡面設定的 -->
-      <!-- 記得 to 要加 : -> :to -->
+      <!-- 記得 to 要加 : -> :to  才會是動態路由-->
       <router-link
         class="nav-link"
         :to="{ name: 'restaurants', query: { categoryId: category.id } }"
