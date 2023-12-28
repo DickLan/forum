@@ -1,5 +1,5 @@
 <template>
-  <form @submit.stop.prevent="handleSubmit">
+  <form v-show="!isLoading" @submit.stop.prevent="handleSubmit">
     <div class="form-group">
       <label for="name">Name</label>
       <input
@@ -97,52 +97,8 @@
 </template>
 
 <script>
-const dummyData = {
-  categories: [
-    {
-      id: 1,
-      name: "中式料理",
-      createdAt: "2023-12-18T10:10:26.000Z",
-      updatedAt: "2023-12-18T10:10:26.000Z",
-    },
-    {
-      id: 2,
-      name: "日本料理",
-      createdAt: "2023-12-18T10:10:26.000Z",
-      updatedAt: "2023-12-18T10:10:26.000Z",
-    },
-    {
-      id: 3,
-      name: "義大利料理",
-      createdAt: "2023-12-18T10:10:26.000Z",
-      updatedAt: "2023-12-18T10:10:26.000Z",
-    },
-    {
-      id: 4,
-      name: "墨西哥料理",
-      createdAt: "2023-12-18T10:10:26.000Z",
-      updatedAt: "2023-12-18T10:10:26.000Z",
-    },
-    {
-      id: 5,
-      name: "素食料理",
-      createdAt: "2023-12-18T10:10:26.000Z",
-      updatedAt: "2023-12-18T10:10:26.000Z",
-    },
-    {
-      id: 6,
-      name: "美式料理",
-      createdAt: "2023-12-18T10:10:26.000Z",
-      updatedAt: "2023-12-18T10:10:26.000Z",
-    },
-    {
-      id: 7,
-      name: "複合式料理",
-      createdAt: "2023-12-18T10:10:26.000Z",
-      updatedAt: "2023-12-18T10:10:26.000Z",
-    },
-  ],
-};
+import adminAPI from "./../apis/admin";
+import Toast from "./../utils/helpers";
 
 export default {
   data() {
@@ -157,6 +113,7 @@ export default {
         openingHours: "",
       },
       categories: [],
+      isLoading: true,
     };
   },
   created() {
@@ -167,8 +124,18 @@ export default {
     };
   },
   methods: {
-    fetchCategories() {
-      this.categories = dummyData.categories;
+    async fetchCategories() {
+      try {
+        const { data } = await adminAPI.categories.get();
+        this.categories = data.categories;
+        this.isLoading = false;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得餐廳類別，請稍後再試",
+        });
+        this.isLoading = false;
+      }
     },
     handleFileChange(event) {
       // console.log("event.target", event.target);
@@ -185,16 +152,26 @@ export default {
       }
     },
     handleSubmit(e) {
+      if (!this.restaurant.name) {
+        Toast.fire({
+          icon: "warning",
+          Title: "請填",
+        });
+      }
       // console.log(e);
       const form = e.target;
-      console.log("form", form);
+      console.log("form1", form);
       // 透過 new FormData 來產生物件實例，並存放到 formData 變數中
       const formData = new FormData(form);
-      console.log("formData", formData);
+      const jsonData = {};
+      // console.log("formData1", formData);
       // 要取得表單的內容 則可以透過 formData.entries() 來逐項取得表單的欄位名稱與值
-      // for (let [name, value] of formData.entries()) {
-      //   console.log(name, value);
-      // }
+      for (let [name, value] of formData.entries()) {
+        console.log(2);
+        console.log(name, value);
+        jsonData[name] = value;
+      }
+      // console.log("formData1", formData);
       this.$emit("after-submit", formData);
     },
   },
@@ -213,6 +190,14 @@ export default {
         image: "",
         openingHours: "",
       }),
+    },
+  },
+  watch: {
+    initialRestaurant(newValue) {
+      this.restaurant = {
+        ...this.restaurant,
+        ...newValue,
+      };
     },
   },
 };

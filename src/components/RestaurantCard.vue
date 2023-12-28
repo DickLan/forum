@@ -45,7 +45,7 @@
           type="button"
           class="btn btn-danger like mr-2"
           v-if="restaurant.isLiked"
-          @click.stop.prevent="changeLikeState"
+          @click.stop.prevent="deleteLike(restaurant.id)"
         >
           Unlike
         </button>
@@ -53,7 +53,7 @@
           type="button"
           class="btn btn-primary like mr-2"
           v-else
-          @click.stop.prevent="changeLikeState"
+          @click.stop.prevent="addLike(restaurant.id)"
         >
           Like
         </button>
@@ -124,6 +124,26 @@ export default {
       this.restaurant = {
         ...this.restaurant,
         isFavorited: false,
+      };
+    },
+    async addLike(restaurantId) {
+      const response = await usersAPI.addLike({ restaurantId });
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+      this.restaurant = {
+        ...this.restaurant,
+        isLiked: true,
+      };
+    },
+    async deleteLike(restaurantId) {
+      const response = await usersAPI.deleteLike({ restaurantId });
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+      this.restaurant = {
+        ...this.restaurant,
+        isLiked: false,
       };
     },
   },
